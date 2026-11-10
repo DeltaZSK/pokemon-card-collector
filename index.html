@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pokémon Card Collector</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <h1>Pokémon Card Collector</h1>
+    <span id="netStatus" class="net-status" hidden></span>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="view-home" class="view active">
+      <div class="toggle-row">
+        <div class="segmented" id="homeViewToggle">
+          <button data-mode="list">List</button>
+          <button data-mode="grid" class="active">Grid</button>
+        </div>
+      </div>
+      <div id="homeLoading" class="loading">Loading sets…</div>
+      <div id="homeError" class="error" hidden></div>
+      <div id="seriesList"></div>
+    </section>
+
+    <!-- SET VIEW -->
+    <section id="view-set" class="view">
+      <button id="backHome" class="back-btn">← Back</button>
+      <div id="setHeader"></div>
+      <div class="toggle-row">
+        <div class="segmented" id="setViewToggle">
+          <button data-mode="cards" class="active">Cards</button>
+          <button data-mode="list">List</button>
+          <button data-mode="grid">Grid</button>
+        </div>
+      </div>
+      <div id="rarityChips" class="chips"></div>
+      <div id="setLoading" class="loading" hidden>Loading cards…</div>
+      <div id="setError" class="error" hidden></div>
+      <div id="setCards" class="card-grid"></div>
+    </section>
+
+    <!-- SEARCH -->
+    <section id="view-search" class="view">
+      <h2>Search Cards</h2>
+      <form id="searchForm" class="search-row">
+        <input id="searchInput" type="search" placeholder="Search by card name, e.g. Charizard" autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+      <p class="hint">Searches the full Pokémon TCG catalog. Prices are TCGplayer market prices.</p>
+      <div id="searchLoading" class="loading" hidden>Searching…</div>
+      <div id="searchError" class="error" hidden></div>
+      <div id="searchResults" class="card-grid"></div>
+    </section>
+
+    <!-- COLLECTION -->
+    <section id="view-collection" class="view">
+      <h2>My Collection</h2>
+      <div class="stat-card">
+        <div class="stat-label">Collection Value</div>
+        <div class="stat-big" id="collectionTotal">$0.00</div>
+        <div class="stat-sub" id="collectionCount">0 cards</div>
+      </div>
+      <div class="toolbar">
+        <label>Sort
+          <select id="collectionSort">
+            <option value="value">Highest value</option>
+            <option value="name">Name A–Z</option>
+            <option value="added">Recently added</option>
+          </select>
+        </label>
+        <button id="refreshCollectionPrices" class="btn small">Refresh prices</button>
+      </div>
+      <div id="collectionEmpty" class="empty">No cards yet. Browse a set and tap a card to add it.</div>
+      <div id="collectionList" class="collection-list"></div>
+    </section>
+
+    <!-- WISHES -->
+    <section id="view-wishes" class="view">
+      <h2>Wishlist</h2>
+      <div id="wishesEmpty" class="empty">Nothing on your wishlist yet. Tap the ♡ on a card to add it here.</div>
+      <div id="wishesList" class="collection-list"></div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="view-portfolio" class="view">
+      <div class="tabs-row">
+        <span class="tab active">Overview</span>
+        <span class="tab muted">Performance</span>
+        <span class="currency">💲 USD</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Portfolio <span class="accent">Main</span></div>
+        <div class="stat-big" id="portfolioTotal">$0.00</div>
+        <div class="stat-gain" id="portfolioGain">—</div>
+      </div>
+      <canvas id="portfolioChart" width="640" height="260"></canvas>
+      <div class="range-pills" id="rangePills">
+        <button data-range="1D">1D</button>
+        <button data-range="7D">7D</button>
+        <button data-range="1M">1M</button>
+        <button data-range="3M">3M</button>
+        <button data-range="6M" class="active">6M</button>
+        <button data-range="ALL">MAX</button>
+      </div>
+      <div class="card panel">
+        <h3>Most Valuable</h3>
+        <div id="mostValuable"></div>
+      </div>
+      <button id="refreshPrices" class="btn wide">Refresh Prices</button>
+      <p class="hint" id="snapshotNote"></p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button data-view="home" class="active">🏠<span>Home</span></button>
+    <button data-view="search">🔍<span>Search</span></button>
+    <button data-view="collection">🗂️<span>Collection</span></button>
+    <button data-view="wishes">♡<span>Wishes</span></button>
+    <button data-view="portfolio">📈<span>Portfolio</span></button>
+  </nav>
+</div>
+
+<!-- CARD DETAIL MODAL -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-sheet" role="dialog" aria-modal="true">
+    <button id="modalClose" class="modal-close">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
