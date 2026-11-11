@@ -184,8 +184,9 @@ function renderHome() {
         const b = document.createElement('button');
         b.className = 'set-symbol';
         b.title = s.name;
-        b.innerHTML = '<img src="' + esc(s.images.symbol) + '" alt="' + esc(s.name) + '" loading="lazy">' +
-          (count ? '<span class="owned-badge">' + count + '</span>' : '');
+        b.innerHTML = '<span class="symbol-circle"><img src="' + esc(s.images.symbol) + '" alt="' + esc(s.name) + '" loading="lazy">' +
+          (count ? '<span class="owned-badge">' + count + '</span>' : '') + '</span>' +
+          '<span class="set-symbol-name">' + esc(s.name) + '</span>';
         b.addEventListener('click', () => openSet(s));
         grid.appendChild(b);
       }
